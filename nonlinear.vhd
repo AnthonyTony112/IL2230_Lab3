@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use ieee.fixed_pkg.all;
 
 entity nonlinear is
-	generic (int_bit: integer :=6; float_bit: integer := 10);
+	generic (int_bit: integer :=12; float_bit: integer := 20);
 	port (
 		output: IN sfixed (int_bit-1 downto -float_bit);
 		Reluout: Out sfixed (int_bit-1 downto -float_bit);
