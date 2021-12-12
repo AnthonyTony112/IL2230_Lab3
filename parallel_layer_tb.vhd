@@ -8,23 +8,23 @@ USE work.all  ;
 USE work.CoeffPak.all  ; 
 use ieee.fixed_pkg.all;
 
-ENTITY parallel_neuron_tb  IS 
+ENTITY parallel_layer_tb  IS 
   GENERIC (
     float_bit  : INTEGER   := 5 ;  
     int_bit  : INTEGER   := 3 ;  
     N  : INTEGER   := 3 ); 
 END ; 
  
-ARCHITECTURE parallel_neuron_tb_arch OF parallel_neuron_tb IS
- 
-  SIGNAL LCounter   :  integer ; 
-  SIGNAL X   :  DataArray:=(others=>(others=>'0'));  
-  SIGNAL output   :  sfixed(int_bit-1 downto -float_bit); 
+ARCHITECTURE parallel_layer_tb_arch OF parallel_layer_tb IS
+  SIGNAL new_result   :  STD_LOGIC  ; 
+  SIGNAL LCounter   :  INTEGER  ; 
+  SIGNAL X   : DataArray:=(others=>(others=>'0')); 
   SIGNAL clk   :  STD_LOGIC  ; 
   SIGNAL b   :  sfixed(int_bit-1 downto -float_bit); 
+  SIGNAL Result   :  DataArray  ; 
   SIGNAL reset   :  STD_LOGIC  ; 
-  SIGNAL W   : DataArray:=(others=>(others=>'0')); 
-  constant X_in: DataArray:=( 
+  SIGNAL W   :  DataArray:=(others=>(others=>'0'));
+   constant X_in: DataArray:=( 
   "00100000",
   "00100000",
   "00100000"
@@ -35,38 +35,37 @@ ARCHITECTURE parallel_neuron_tb_arch OF parallel_neuron_tb IS
   "00010000",
   "00011000"
   );
-  COMPONENT parallel_neuron  
+  COMPONENT parallel_layer  
     GENERIC ( 
       float_bit  : INTEGER ; 
       int_bit  : INTEGER ; 
       N  : INTEGER  );  
     PORT ( 
-  
-      LCounter  : in integer ; 
-      X  : in DataArray:=(others=>(others=>'0')); 
-      output  : out sfixed(int_bit-1 downto -float_bit);
+      new_result  : out STD_LOGIC ; 
+      LCounter  : in INTEGER ; 
+      X  : in DataArray:=(others=>(others=>'0'));  
       clk  : in STD_LOGIC ; 
       b  : in sfixed(int_bit-1 downto -float_bit);
+      Result  : out DataArray ; 
       reset  : in STD_LOGIC ; 
-      W  : in DataArray:=(others=>(others=>'0'))); 
-  END COMPONENT; 
-  
+      W  : in DataArray:=(others=>(others=>'0')) ); 
+  END COMPONENT ; 
 BEGIN
-  DUT  : parallel_neuron  
+  DUT  : parallel_layer  
     GENERIC MAP ( 
       float_bit  => float_bit  ,
       int_bit  => int_bit  ,
       N  => N   )
     PORT MAP ( 
-      
+      new_result   => new_result  ,
       LCounter   => LCounter  ,
       X   => X  ,
-      output   => output  ,
       clk   => clk  ,
       b   => b  ,
+      Result   => Result  ,
       reset   => reset  ,
       W   => W   ) ; 
-      
+
 process 
   begin
     clk<='1';
@@ -89,8 +88,8 @@ begin
     end loop;
    wait for 2000 ns;
        
-end process;
+end process;      
       
 
-END parallel_neuron_tb_arch; 
+END parallel_layer_tb_arch; 
 
