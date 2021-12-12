@@ -4,7 +4,7 @@ use ieee.numeric_std.all;
 use ieee.fixed_pkg.all;
 
 entity MAU is
-	generic (int_bit: integer := 12; float_bit: integer := 20);
+	generic (int_bit: integer := 3; float_bit: integer := 5);
 	port (
 		A, B, C: In sfixed (int_bit-1 downto -float_bit);
 		Output: Out sfixed (int_bit-1 downto -float_bit)
