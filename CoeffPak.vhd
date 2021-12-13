@@ -25,7 +25,7 @@ package CoeffPak is
 	subtype Datafix is sfixed (int_bit-1 downto -float_bit);
 	type DataArray is array(0 to N-1) of Datafix;
 	type DataArray2D is array (0 to N-1) of DataArray;
-	type DataArray3D is array (0 to N-1) of DataArray2D;
+	type DataArray3D is array (0 to M-1) of DataArray2D;
 	--type DataBus is array(0 to 1) of Datafix;
 	
 	--Functions
